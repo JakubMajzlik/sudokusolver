@@ -2,7 +2,6 @@ package sk.jakubmajzlik.sudokusolver.lib.tests;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameGrid {
     private List<List<Integer>> ground = new ArrayList<>();
@@ -37,25 +36,21 @@ public class GameGrid {
     }
 
     public List<Integer> getCol(int col) {
-
         List<Integer> colList = new ArrayList<>();
-
-        ground.forEach(e -> {
-            colList.add(e.get(0));
-        });
-
+        for(List<Integer> column : ground) {
+            colList.add(column.get(col));
+        }
         return colList;
     }
 
     public static boolean isUnique(List<Integer> list) {
-        AtomicBoolean result = new AtomicBoolean(true);
         List<Integer> listOfNumbers = new ArrayList<>();
-        list.forEach(e -> {
-            if(listOfNumbers.contains(e.intValue()) && e.intValue() > 0) {
-                result.set(false);
+        for(int member : list) {
+            if(listOfNumbers.contains(member) && member > 0) {
+                return false;
             }
-            listOfNumbers.add(e);
-        });
-        return result.get();
+            listOfNumbers.add(member);
+        }
+        return true;
     }
 }
