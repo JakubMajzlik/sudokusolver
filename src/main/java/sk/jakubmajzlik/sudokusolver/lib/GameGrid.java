@@ -1,4 +1,4 @@
-package sk.jakubmajzlik.sudokusolver.lib.tests;
+package sk.jakubmajzlik.sudokusolver.lib;
 
 import java.util.ArrayList;
 import java.util.List;
