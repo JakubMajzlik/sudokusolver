@@ -1,5 +1,7 @@
 package sk.jakubmajzlik.sudokusolver.lib;
 
+import sk.jakubmajzlik.sudokusolver.lib.technique.SolvingTechnique;
+
 public class SudokuSolver {
 
     public boolean solve() {

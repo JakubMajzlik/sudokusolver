@@ -1,4 +1,4 @@
-package sk.jakubmajzlik.sudokusolver.lib;
+package sk.jakubmajzlik.sudokusolver.lib.technique;
 
 public enum SolvingTechnique {
     SINGLE_CANDIDATE,
