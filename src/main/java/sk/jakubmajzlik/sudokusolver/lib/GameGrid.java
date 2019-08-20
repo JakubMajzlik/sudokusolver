@@ -6,14 +6,21 @@ import java.util.List;
 public class GameGrid {
     private List<List<Integer>> ground = new ArrayList<>();
 
-    public GameGrid() {
-        // Initialize 8x8 grid
-        for (int i = 0; i < 8; i++) {
+    private int size;
+
+    public GameGrid(int size) {
+        // Initialize grid
+        for (int i = 0; i < size; i++) {
             ground.add(new ArrayList<>());
-            for (int j = 0; j < 8; j++) {
+            for (int j = 0; j < size; j++) {
                 ground.get(i).add(0);
             }
         }
+        this.size = size;
+    }
+
+    public GameGrid() {
+        this(9);
     }
 
     public boolean check() {
@@ -41,6 +48,14 @@ public class GameGrid {
             colList.add(column.get(col));
         }
         return colList;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 
     public static boolean isUnique(List<Integer> list) {
