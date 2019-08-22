@@ -8,15 +8,6 @@ import java.util.List;
 
 class GridTests {
 
-    @Test
-    void isUnique_fullOfZero_success() {
-        List<Integer> testList = Arrays.asList(0,0,0,0,0,0,0,0,0);
-        Assertions.assertTrue(GameGrid.isUnique(testList));
-    }
+    //TODO: new tests
 
-    @Test
-    void isUnique_112345678_fail() {
-        List<Integer> testList = Arrays.asList(1,1,2,3,4,5,6,7,8);
-        Assertions.assertFalse(GameGrid.isUnique(testList));
-    }
 }
