@@ -26,7 +26,7 @@ public class GameGrid {
      * @param size Number of columns and rows
      * @since 1.0
      */
-    public GameGrid(int size) {
+    private GameGrid(int size) {
         // Initialize grid
         for (int i = 0; i < size; i++) {
             ground.add(new ArrayList<>());
