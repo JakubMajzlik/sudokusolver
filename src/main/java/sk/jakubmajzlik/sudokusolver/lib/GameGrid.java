@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * This class provides basic structure for all sudoku solving algorithms of this library.
+ * Game grid is implemented as {@code List<List<Integer>>}. Empty cells must be filled with zeros.
  *
  * @version 1.0
  * @author Jakub Majzlík
@@ -22,12 +23,11 @@ public class GameGrid {
     private int size;
 
     /**
-     * Creates the game grid of the size size X size.
+     * Creates empty game grid of the size size X size.
      * @param size Number of columns and rows
      * @since 1.0
      */
     private GameGrid(int size) {
-        // Initialize grid
         for (int i = 0; i < size; i++) {
             ground.add(new ArrayList<>());
             for (int j = 0; j < size; j++) {
@@ -38,11 +38,35 @@ public class GameGrid {
     }
 
     /**
-     * Creates the game grid of the size 9 X 9.
+     * Creates empty game grid of the size 9 X 9.
      * @since 1.0
      */
     public GameGrid() {
         this(9);
+    }
+
+    /**
+     * Creates the game grid of the size 9x9 with numbers which are stored in 2d array {@code gameGrid}.
+     *  So far the only grid of size <string>9x9</string> is supported.
+     * @param gameGrid 2d array with numbers
+     * @throws NullPointerException if {@code gameGrid} is null
+     * @throws IllegalArgumentException if {@code gameGrid} is not 9x9
+     * @since 1.0
+     */
+    public GameGrid(int[][] gameGrid) {
+        if(gameGrid == null) throw new NullPointerException();
+        if(gameGrid.length != 9) throw  new IllegalArgumentException("Array must be 9x9");
+        int fieldSum = 0;
+        for (int[] ints : gameGrid) fieldSum += ints.length;
+        if(fieldSum != 81) throw  new IllegalArgumentException("Array must be 9x9");
+
+        size = 9;
+        for(int i = 0; i < size; i++) {
+            ground.add(new ArrayList<>());
+            for(int cell : gameGrid[i]) {
+                ground.get(i).add(cell);
+            }
+        }
     }
 
     /**
