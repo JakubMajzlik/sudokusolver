@@ -99,7 +99,7 @@ public class GameGrid {
      * @return List of numbers in specific column
      * @since 1.0
      */
-    public List<Integer> getCol(int col) {
+    public List<Integer> getColumn(int col) {
         List<Integer> colList = new ArrayList<>();
         for(List<Integer> column : ground) {
             colList.add(column.get(col));
@@ -116,11 +116,6 @@ public class GameGrid {
         return size;
     }
 
-    // TODO: DELETE
-    public void setSize(int size) {
-        this.size = size;
-    }
-
     /**
      * Checks if specific row contains the number
      * @param rowIndex Index of the row from 0 to {@code size}
@@ -128,8 +123,7 @@ public class GameGrid {
      * @return {@code true} if  row contains the number
      * @since 1.0
      */
-    public boolean findNumberInRow(int rowIndex, int number) {
-        //TODO: rename to isNumberInRow(...)
+    public boolean isNumberInRow(int rowIndex, int number) {
         return this.getRow(rowIndex).contains(number);
     }
 
@@ -140,12 +134,8 @@ public class GameGrid {
      * @return {@code true} if column contains the number
      * @since 1.0
      */
-    public boolean findNumberInColumn(int columnIndex, int number) {
-        //TODO: rename to isNumberInColumn(...)
-        for(int rowIndex = 0; rowIndex < this.getSize(); rowIndex++) {
-            if(this.get(rowIndex, columnIndex) == number) return true;
-        }
-        return false;
+    public boolean isNumberInColumn(int columnIndex, int number) {
+        return this.getColumn(columnIndex).contains(number);
     }
 
     /**
@@ -156,8 +146,7 @@ public class GameGrid {
      * @see #getRectangleIndex(int, int)
      * @since 1.0
      */
-    public boolean findNumberInRectangle(int rectangleIndex, int number) {
-        //TODO: rename to isNumberInRectangle(...)
+    public boolean isNumberInRectangle(int rectangleIndex, int number) {
         int rowIndex = 0;
         if(rectangleIndex > 2 && rectangleIndex < 6) rowIndex = 3;
         if(rectangleIndex > 5) rowIndex = 6;
