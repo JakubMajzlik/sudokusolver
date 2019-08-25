@@ -72,7 +72,7 @@ public class GameGrid {
     /**
      * Checks if are numbers in grid correctly placed.
      *
-     * @return Validity of the grid
+     * @return true if are numbers in grid correctly placed
      */
     public boolean check() {
         //TODO: Implementation and documentation what it checks
@@ -132,6 +132,31 @@ public class GameGrid {
     }
 
     /**
+     * Gets list of numbers in specific rectangle
+     * @param rectangleIndex Index of the rectangle from 0 to {@code size}
+     * @return List of numbers in specific rectangle
+     * @since 1.0
+     * @see #getRectangleIndex(int, int)
+     */
+    public List<Integer> getRectangle(int rectangleIndex) {
+        List<Integer> rectangleList = new ArrayList<>();
+        int rowStartIndex = 0;
+        if(rectangleIndex > 2 && rectangleIndex < 6) rowStartIndex = 3;
+        if(rectangleIndex > 5) rowStartIndex = 6;
+
+        int columnStartIndex = 0;
+        if (Arrays.asList(1,4,7).contains(rectangleIndex)) columnStartIndex = 3;
+        if (Arrays.asList(2,5,8).contains(rectangleIndex)) columnStartIndex = 6;
+
+        for(int rowIndex = rowStartIndex; rowIndex < rowStartIndex + 3; rowIndex++) {
+            for(int columnIndex = columnStartIndex; columnIndex < columnStartIndex + 3; columnIndex++) {
+                rectangleList.add(this.get(rowIndex, columnIndex));
+            }
+        }
+        return rectangleList;
+    }
+
+    /**
      * Gets size of game grid
      * @return Size of game grid
      * @since 1.0
@@ -171,20 +196,7 @@ public class GameGrid {
      * @since 1.0
      */
     public boolean isNumberInRectangle(int rectangleIndex, int number) {
-        int rowIndex = 0;
-        if(rectangleIndex > 2 && rectangleIndex < 6) rowIndex = 3;
-        if(rectangleIndex > 5) rowIndex = 6;
-
-        int columnIndex = 0;
-        if (Arrays.asList(1,4,7).contains(rectangleIndex)) columnIndex = 3;
-        if (Arrays.asList(2,5,8).contains(rectangleIndex)) columnIndex = 6;
-
-        for(int i = rowIndex; i < rowIndex + 3; i++) {
-            for(int j = columnIndex; j < columnIndex + 3; j++) {
-                if(this.get(i, j) == number) return true;
-            }
-        }
-        return false;
+        return this.getRectangle(rectangleIndex).contains(number);
     }
 
     /**
