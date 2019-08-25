@@ -7,9 +7,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
+ * Tests for {@code GameGrid} class
+ * @author Jakub Majzlík
+ * @see GameGrid
  */
-class GridTests {
+class GameGridTests {
 
     GameGrid initializeTestGrid() {
         int[][] testGameGrid = {
@@ -104,6 +106,13 @@ class GridTests {
         GameGrid gameGrid = initializeTestGrid();
         List<Integer> expectedList = Arrays.asList(2,0,5,0,0,0,7,6,0);
         Assertions.assertEquals(expectedList, gameGrid.getColumn(0));
+    }
+
+    @Test
+    void getRectangleTest() {
+        GameGrid gameGrid = initializeTestGrid();
+        List<Integer> expectedList = Arrays.asList(2,0,0,0,7,0,5,4,0);
+        Assertions.assertEquals(expectedList, gameGrid.getRectangle(0));
     }
 
     @Test
