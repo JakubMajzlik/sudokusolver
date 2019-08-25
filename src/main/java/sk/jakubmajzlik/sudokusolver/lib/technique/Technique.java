@@ -13,6 +13,7 @@ public interface Technique {
      * @param gameGrid Game grid
      * @return Game grid with applied solving technique
      * @since 1.0
+     * @see SingleCandidate
      */
     GameGrid apply(GameGrid gameGrid);
 }
