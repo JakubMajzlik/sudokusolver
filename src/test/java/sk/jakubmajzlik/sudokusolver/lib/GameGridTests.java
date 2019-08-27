@@ -134,11 +134,41 @@ class GameGridTests {
 
     @Test
     void checkTest_success() {
-        //TODO: Implement test after implementation of the method is done
+        GameGrid gameGrid = initializeTestGrid();
+
+        Assertions.assertTrue(gameGrid.check());
+
+        int[][] testGameGrid = {
+                {2,9,8,3,6,4,5,7,1},
+                {1,7,3,9,5,2,8,4,6},
+                {5,4,6,1,8,7,2,9,3},
+                {4,2,7,8,1,9,3,6,5},
+                {8,5,9,2,3,6,7,1,4},
+                {3,6,1,7,4,5,9,8,2},
+                {7,1,4,5,9,3,6,2,8},
+                {6,3,2,4,7,8,1,5,9},
+                {9,8,5,6,2,1,4,3,7}
+        };
+        gameGrid = new GameGrid(testGameGrid);
+
+        Assertions.assertTrue(gameGrid.check());
     }
 
     @Test
     void checkTest_failed() {
-        //TODO: Implement test after implementation of the method is done
+        int[][] testGameGrid = {
+                {2,9,8,3,6,4,5,7,1},
+                {1,1,3,9,5,2,8,4,6},//two 1
+                {5,4,6,1,8,7,2,9,3},
+                {4,2,7,8,1,9,3,6,5},
+                {8,5,9,2,3,6,7,1,4},
+                {3,6,1,7,4,5,9,8,2},
+                {7,1,4,5,9,3,6,2,8},
+                {6,3,2,4,7,8,1,5,9},
+                {9,8,5,6,2,1,4,3,7}
+        };
+        GameGrid gameGrid = new GameGrid(testGameGrid);
+
+        Assertions.assertFalse(gameGrid.check());
     }
 }

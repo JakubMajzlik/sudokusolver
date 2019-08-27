@@ -70,18 +70,32 @@ public class GameGrid {
     }
 
     /**
-     * Checks if are numbers in grid correctly placed.
-     *
+     * Checks if are numbers in grid correctly placed. It checks if every number in a row,
+     * in a column and in a rectangle is unique.
      * @return true if are numbers in grid correctly placed
      */
     public boolean check() {
-        //TODO: Implementation and documentation what it checks
-        // Check columns
+        for(int i = 0; i < this.size; i++) {
+            if(!isUnique(getRow(i))) return false;
+            if(!isUnique(getColumn(i))) return false;
+            if(!isUnique(getRectangle(i))) return false;
+        }
+        return true;
+    }
 
-        // Check rows
-
-        // Check squares
-
+    /**
+     *  Check if numbers in the {@code list} are unique. List can contain multiple 0.
+     * @param list List of numbers
+     * @return true if all numbers in the {@code list} are unique
+     */
+    private boolean isUnique(List<Integer> list) {
+        List<Integer> listOfNumbers = new ArrayList<>();
+        for (int member : list) {
+            if (listOfNumbers.contains(member) && member > 0) {
+                return false;
+            }
+            listOfNumbers.add(member);
+        }
         return true;
     }
 
