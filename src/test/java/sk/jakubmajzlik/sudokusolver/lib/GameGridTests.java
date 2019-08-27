@@ -156,7 +156,7 @@ class GameGridTests {
 
     @Test
     void checkTest_failed() {
-        int[][] testGameGrid = {
+        int[][] testGameGrid1 = {
                 {2,9,8,3,6,4,5,7,1},
                 {1,1,3,9,5,2,8,4,6},//two 1
                 {5,4,6,1,8,7,2,9,3},
@@ -167,8 +167,35 @@ class GameGridTests {
                 {6,3,2,4,7,8,1,5,9},
                 {9,8,5,6,2,1,4,3,7}
         };
-        GameGrid gameGrid = new GameGrid(testGameGrid);
+        int[][] testGameGrid2 = {
+                {2,9,8,3,6,4,5,7,1},
+                {1,7,3,9,5,2,8,4,6},
+                {5,4,6,1,8,7,2,9,3},//two 6 in column
+                {4,2,6,8,1,9,3,6,5},
+                {8,5,9,2,3,6,7,1,4},
+                {3,6,1,7,4,5,9,8,2},
+                {7,1,4,5,9,3,6,2,8},
+                {6,3,2,4,7,8,1,5,9},
+                {9,8,5,6,2,1,4,3,7}
+        };
+        int[][] testGameGrid3 = {
+                {2,9,8,3,6,4,5,7,1},
+                {1,1,3,9,5,2,8,4,6},
+                {5,4,6,1,8,7,2,9,3},
+                {4,2,7,8,1,9,3,6,5},
+                {8,5,9,2,3,6,7,1,4},
+                {3,6,1,7,4,5,9,8,2},
+                {7,1,4,5,9,3,6,2,8},//Two 8 in rectangle
+                {6,3,2,4,7,8,1,8,9},
+                {9,8,5,6,2,1,4,3,7}
+        };
+        GameGrid gameGrid = new GameGrid(testGameGrid1);
+        Assertions.assertFalse(gameGrid.check());
 
+        gameGrid = new GameGrid(testGameGrid2);
+        Assertions.assertFalse(gameGrid.check());
+
+        gameGrid = new GameGrid(testGameGrid3);
         Assertions.assertFalse(gameGrid.check());
     }
 }
