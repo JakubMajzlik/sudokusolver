@@ -8,7 +8,7 @@ import java.util.List;
  * This class provides basic structure for all sudoku solving algorithms of this library.
  * Game grid is implemented as {@code List<List<Integer>>}. Empty cells must be filled with zeros.
  *
- * @version 1.0
+ * @version 1.1
  * @author Jakub Majzlík
  */
 public class GameGrid {
@@ -222,6 +222,64 @@ public class GameGrid {
      */
     public int getRectangleIndex(int row, int col) {
         return row / 3 * 3 + col / 3;
+    }
+
+    /**
+     * Gets list of rows from the specific super row.
+     * @param superRowIndex Index of the super row from 0 to 2
+     * @return The list of rows
+     * @since 1.1
+     */
+    public List<List<Integer>> getSuperRow(int superRowIndex) {
+        List<List<Integer>> superRow = new ArrayList<>();
+        for(int row = superRowIndex * 3; row < superRowIndex * 3 + 3; row++) {
+            superRow.add(this.getRow(row));
+        }
+        return superRow;
+    }
+
+    /**
+     * Gets list of columns from specific super column.
+     * @param superColumnIndex Index of the super column from 0 to 2
+     * @return List of columns
+     * @since 1.1
+     */
+    public List<List<Integer>> getSuperColumn(int superColumnIndex)
+    {
+        List<List<Integer>> superColumn = new ArrayList<>();
+        for(int column = superColumnIndex * 3; column < superColumnIndex * 3 + 3; column++) {
+            superColumn.add(this.getColumn(column));
+        }
+        return superColumn;
+    }
+
+    /**
+     * Calculates the index of the super row or the super column.
+     * @param index Index of the row or the column from 0 to 8
+     * @return Index of the super row or the super column
+     * @since 1.1
+     */
+    public int getSuperIndex(int index) {
+        return index / 3;
+    }
+
+    /**
+     * Gets list of candidates for specific cell in game grid.
+     * @param rowIndex Index of the row from 0 to 8
+     * @param columnIndex Index of the column from 0 to 8
+     * @return List of candidates
+     * @since 1.1
+     */
+    public List<Integer> getCandidatesForCell(int rowIndex, int columnIndex) {
+        List<Integer> listOfCandidates = new ArrayList<>();
+        for(int possibleCandidate = 1; possibleCandidate <= getSize(); possibleCandidate++) {
+            if(isNumberInRow(rowIndex, possibleCandidate)) continue;
+            if(isNumberInColumn(columnIndex, possibleCandidate)) continue;
+            if(isNumberInRectangle(getRectangleIndex(rowIndex, columnIndex), possibleCandidate)) continue;
+
+            listOfCandidates.add(possibleCandidate);
+        }
+        return listOfCandidates;
     }
 
     @Override

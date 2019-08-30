@@ -3,6 +3,7 @@ package sk.jakubmajzlik.sudokusolver.lib;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -197,5 +198,46 @@ class GameGridTests {
 
         gameGrid = new GameGrid(testGameGrid3);
         Assertions.assertFalse(gameGrid.check());
+    }
+
+    @Test
+    void getSuperIndexTest() {
+        GameGrid gameGrid = new GameGrid();
+        Assertions.assertEquals(0, gameGrid.getSuperIndex(0));
+        Assertions.assertEquals(1, gameGrid.getSuperIndex(4));
+        Assertions.assertEquals(2, gameGrid.getSuperIndex(7));
+    }
+
+    @Test
+    void getSuperRowTest() {
+        GameGrid gameGrid = initializeTestGrid();
+        List<List<Integer>> superRowResult = gameGrid.getSuperRow(1);
+        List<List<Integer>> expected =  new ArrayList<>();
+        expected.add(Arrays.asList(0,0,7,8,0,0,3,0,0));
+        expected.add(Arrays.asList(0,5,9,0,0,0,7,1,0));
+        expected.add(Arrays.asList(0,0,1,0,0,5,9,0,0));
+
+        Assertions.assertEquals(expected, superRowResult);
+    }
+
+    @Test
+    void getSuperColumnTest() {
+        GameGrid gameGrid = initializeTestGrid();
+        List<List<Integer>> superColumnResult = gameGrid.getSuperColumn(2);
+        List<List<Integer>> expected =  new ArrayList<>();
+        expected.add(Arrays.asList(0,0,0,3,7,9,0,0,0));
+        expected.add(Arrays.asList(0,0,0,0,1,0,2,5,0));
+        expected.add(Arrays.asList(0,6,3,0,0,0,8,0,7));
+
+        Assertions.assertEquals(expected, superColumnResult);
+    }
+
+    @Test
+    void getCandidatesForCellTest() {
+        GameGrid gameGrid = initializeTestGrid();
+        List<Integer> result = gameGrid.getCandidatesForCell(2, 2);
+        List<Integer> expected = Arrays.asList(6, 8);
+
+        Assertions.assertEquals(expected, result);
     }
 }
