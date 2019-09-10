@@ -15,11 +15,10 @@ public class SingleCandidate implements Technique {
     /**
      * Applies technique of Single Candidate
      * @param gameGrid Game grid
-     * @return Game grid with applied solving technique
      */
     @Override
-    public GameGrid apply(GameGrid gameGrid) {
-        if(gameGrid.getSize() != 9) return gameGrid;
+    public void apply(GameGrid gameGrid) {
+        if(gameGrid.getSize() != 9) return;
         boolean done = false;
         while (!done) {
             done = true;
@@ -46,6 +45,5 @@ public class SingleCandidate implements Technique {
                 }
             }
         }
-        return gameGrid;
     }
 }

@@ -26,7 +26,7 @@ class SingleCandidateTests {
         };
         GameGrid gameGrid = new GameGrid(testGameGrid);
         SingleCandidate singleCandidate = new SingleCandidate();
-        gameGrid = singleCandidate.apply(gameGrid);
+        singleCandidate.apply(gameGrid);
         String expectedResult =
                 "2 9 8 3 6 4 5 7 1 \n" +
                 "1 7 3 9 5 2 8 4 6 \n" +

@@ -11,9 +11,8 @@ public interface Technique {
     /**
      * Applies technique to the {@code gameGrid} and returns game grid
      * @param gameGrid Game grid
-     * @return Game grid with applied solving technique
      * @since 1.0
      * @see SingleCandidate
      */
-    GameGrid apply(GameGrid gameGrid);
+    void apply(GameGrid gameGrid);
 }
