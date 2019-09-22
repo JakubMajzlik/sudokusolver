@@ -98,21 +98,48 @@ class GameGridTests {
     @Test
     void getRowTest() {
         GameGrid gameGrid = initializeTestGrid();
-        List<Integer> expectedList = Arrays.asList(0,0,0,6,2,1,0,0,7);
+        List<Cell> expectedList = Arrays.asList(
+                new Cell(8, 0, 0, gameGrid),
+                new Cell(8, 1, 0, gameGrid),
+                new Cell(8, 2, 0, gameGrid),
+                new Cell(8, 3, 6, gameGrid),
+                new Cell(8, 4, 2, gameGrid),
+                new Cell(8, 5, 1, gameGrid),
+                new Cell(8, 6, 0, gameGrid),
+                new Cell(8, 7, 0, gameGrid),
+                new Cell(8, 8, 7, gameGrid));
         Assertions.assertEquals(expectedList, gameGrid.getRow(8));
     }
 
     @Test
     void getColumnTest() {
         GameGrid gameGrid = initializeTestGrid();
-        List<Integer> expectedList = Arrays.asList(2,0,5,0,0,0,7,6,0);
+        List<Cell> expectedList = Arrays.asList(
+                new Cell(0, 0, 2, gameGrid),
+                new Cell(1, 0, 0, gameGrid),
+                new Cell(2, 0, 5, gameGrid),
+                new Cell(3, 0, 0, gameGrid),
+                new Cell(4, 0, 0, gameGrid),
+                new Cell(5, 0, 0, gameGrid),
+                new Cell(6, 0, 7, gameGrid),
+                new Cell(7, 0, 6, gameGrid),
+                new Cell(8, 0, 0, gameGrid));
         Assertions.assertEquals(expectedList, gameGrid.getColumn(0));
     }
 
     @Test
     void getRectangleTest() {
         GameGrid gameGrid = initializeTestGrid();
-        List<Integer> expectedList = Arrays.asList(2,0,0,0,7,0,5,4,0);
+        List<Cell> expectedList = Arrays.asList(
+                new Cell(0, 0, 2, gameGrid),
+                new Cell(0, 1, 0, gameGrid),
+                new Cell(0, 2, 0, gameGrid),
+                new Cell(1, 0, 0, gameGrid),
+                new Cell(1, 1, 7, gameGrid),
+                new Cell(1, 2, 0, gameGrid),
+                new Cell(2, 0, 5, gameGrid),
+                new Cell(2, 1, 4, gameGrid),
+                new Cell(2, 2, 0, gameGrid));
         Assertions.assertEquals(expectedList, gameGrid.getRectangle(0));
     }
 
@@ -211,23 +238,76 @@ class GameGridTests {
     @Test
     void getSuperRowTest() {
         GameGrid gameGrid = initializeTestGrid();
-        List<List<Integer>> superRowResult = gameGrid.getSuperRow(1);
-        List<List<Integer>> expected =  new ArrayList<>();
-        expected.add(Arrays.asList(0,0,7,8,0,0,3,0,0));
-        expected.add(Arrays.asList(0,5,9,0,0,0,7,1,0));
-        expected.add(Arrays.asList(0,0,1,0,0,5,9,0,0));
-
+        List<List<Cell>> superRowResult = gameGrid.getSuperRow(1);
+        List<List<Cell>> expected =  new ArrayList<>();
+        expected.add(Arrays.asList(
+                new Cell(3, 0, 0, gameGrid),
+                new Cell(3, 1, 0, gameGrid),
+                new Cell(3, 2, 7, gameGrid),
+                new Cell(3, 3, 8, gameGrid),
+                new Cell(3, 4, 0, gameGrid),
+                new Cell(3, 5, 0, gameGrid),
+                new Cell(3, 6, 3, gameGrid),
+                new Cell(3, 7, 0, gameGrid),
+                new Cell(3, 8, 0, gameGrid)));
+        expected.add(Arrays.asList(
+                new Cell(4, 0, 0, gameGrid),
+                new Cell(4, 1, 5, gameGrid),
+                new Cell(4, 2, 9, gameGrid),
+                new Cell(4, 3, 0, gameGrid),
+                new Cell(4, 4, 0, gameGrid),
+                new Cell(4, 5, 0, gameGrid),
+                new Cell(4, 6, 7, gameGrid),
+                new Cell(4, 7, 1, gameGrid),
+                new Cell(4, 8, 0, gameGrid)));
+        expected.add(Arrays.asList(
+                new Cell(5, 0, 0, gameGrid),
+                new Cell(5, 1, 0, gameGrid),
+                new Cell(5, 2, 1, gameGrid),
+                new Cell(5, 3, 0, gameGrid),
+                new Cell(5, 4, 0, gameGrid),
+                new Cell(5, 5, 5, gameGrid),
+                new Cell(5, 6, 9, gameGrid),
+                new Cell(5, 7, 0, gameGrid),
+                new Cell(5, 8, 0, gameGrid)));
         Assertions.assertEquals(expected, superRowResult);
     }
 
     @Test
     void getSuperColumnTest() {
         GameGrid gameGrid = initializeTestGrid();
-        List<List<Integer>> superColumnResult = gameGrid.getSuperColumn(2);
-        List<List<Integer>> expected =  new ArrayList<>();
-        expected.add(Arrays.asList(0,0,0,3,7,9,0,0,0));
-        expected.add(Arrays.asList(0,0,0,0,1,0,2,5,0));
-        expected.add(Arrays.asList(0,6,3,0,0,0,8,0,7));
+        List<List<Cell>> superColumnResult = gameGrid.getSuperColumn(2);
+        List<List<Cell>> expected =  new ArrayList<>();
+        expected.add(Arrays.asList(
+                new Cell(0, 6, 0, gameGrid),
+                new Cell(1, 6, 0, gameGrid),
+                new Cell(2, 6, 0, gameGrid),
+                new Cell(3, 6, 3, gameGrid),
+                new Cell(4, 6, 7, gameGrid),
+                new Cell(5, 6, 9, gameGrid),
+                new Cell(6, 6, 0, gameGrid),
+                new Cell(7, 6, 0, gameGrid),
+                new Cell(8, 6, 0, gameGrid)));
+        expected.add(Arrays.asList(
+                new Cell(0, 7, 0, gameGrid),
+                new Cell(1, 7, 0, gameGrid),
+                new Cell(2, 7, 0, gameGrid),
+                new Cell(3, 7, 0, gameGrid),
+                new Cell(4, 7, 1, gameGrid),
+                new Cell(5, 7, 0, gameGrid),
+                new Cell(6, 7, 2, gameGrid),
+                new Cell(7, 7, 5, gameGrid),
+                new Cell(8, 7, 0, gameGrid)));
+        expected.add(Arrays.asList(
+                new Cell(0, 8, 0, gameGrid),
+                new Cell(1, 8, 6, gameGrid),
+                new Cell(2, 8, 3, gameGrid),
+                new Cell(3, 8, 0, gameGrid),
+                new Cell(4, 8, 0, gameGrid),
+                new Cell(5, 8, 0, gameGrid),
+                new Cell(6, 8, 8, gameGrid),
+                new Cell(7, 8, 0, gameGrid),
+                new Cell(8, 8, 7, gameGrid)));
 
         Assertions.assertEquals(expected, superColumnResult);
     }
@@ -235,7 +315,7 @@ class GameGridTests {
     @Test
     void getCandidatesForCellTest() {
         GameGrid gameGrid = initializeTestGrid();
-        List<Integer> result = gameGrid.getCandidatesForCell(2, 2);
+        List<Integer> result = gameGrid.getCandidatesForCell(gameGrid.get(2,2));
         List<Integer> expected = Arrays.asList(6, 8);
 
         Assertions.assertEquals(expected, result);

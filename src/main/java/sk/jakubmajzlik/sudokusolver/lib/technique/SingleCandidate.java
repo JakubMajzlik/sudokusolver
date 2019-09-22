@@ -25,7 +25,7 @@ public class SingleCandidate implements Technique {
             for(int rowIndex = 0; rowIndex < gameGrid.getSize(); rowIndex++) {
                 for(int columnIndex = 0; columnIndex < gameGrid.getSize(); columnIndex++) {
                     //If cell already contains a number, algorithm continue with next cell
-                    if(gameGrid.get(rowIndex, columnIndex) > 0) continue;
+                    if(gameGrid.get(rowIndex, columnIndex).getValue() > 0) continue;
                     int numberThatCanBePlaced = 0;
                     for(int possibleNumber = 1; possibleNumber <= gameGrid.getSize(); possibleNumber++) {
                         if(gameGrid.isNumberInRow(rowIndex, possibleNumber)) continue;
