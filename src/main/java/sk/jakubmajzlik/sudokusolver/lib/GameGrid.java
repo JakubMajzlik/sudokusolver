@@ -9,7 +9,7 @@ import java.util.Objects;
  * This class provides basic structure for all sudoku solving algorithms of this library.
  * Game grid is implemented as {@code List<List<Integer>>}. Empty cells must be filled with zeros.
  *
- * @version 1.2
+ * @version 1.3
  * @author Jakub Majzlík
  */
 public class GameGrid {
@@ -22,6 +22,11 @@ public class GameGrid {
      * Size of game grid
      */
     private int size;
+
+    /**
+     *
+     */
+    public boolean didProgress = false;
 
     /**
      * Creates empty game grid of the size size X size.
@@ -120,6 +125,7 @@ public class GameGrid {
      * @param number Number at position [row,col]
      */
     public void set(int row, int col, int number) {
+        didProgress = true;
         ground.get(row).get(col).setValue(number);
     }
 
@@ -292,6 +298,20 @@ public class GameGrid {
             listOfCandidates.add(possibleCandidate);
         }
         return listOfCandidates;
+    }
+
+    /**
+     * Checks if the game grid is solved. If the grid is solved, that means there is no empty cell(0 cell).
+     * @return True if the game grid is solved.
+     * @since 1.3
+     */
+    public boolean isSolved() {
+        for(List<Cell> row : ground) {
+            for(Cell cell : row) {
+                if(cell.getValue() == 0) return false;
+            }
+        }
+        return true;
     }
 
     @Override

@@ -320,4 +320,27 @@ class GameGridTests {
 
         Assertions.assertEquals(expected, result);
     }
+
+    @Test
+    void isSolvedTest_Solved() {
+        int[][] grid = {
+            {8,4,6,7,5,9,1,2,3},
+            {1,5,9,3,4,2,6,7,8},
+            {3,7,2,6,1,8,9,4,5},
+            {6,9,8,5,2,4,7,3,1},
+            {7,1,4,8,9,3,2,5,6},
+            {2,3,5,1,7,6,8,9,4},
+            {5,8,3,2,6,7,4,1,9},
+            {9,6,7,4,3,1,5,8,2},
+            {4,2,1,9,8,5,3,6,7},
+        };
+        GameGrid gameGrid = new GameGrid(grid);
+        Assertions.assertTrue(gameGrid.isSolved());
+    }
+
+    @Test
+    void isSolvedTest_NotSolved() {
+        GameGrid gameGrid = initializeTestGrid();
+        Assertions.assertFalse(gameGrid.isSolved());
+    }
 }
