@@ -130,6 +130,7 @@ public class Scanning implements Technique {
     void placeNumber(GameGrid gameGrid, List<Cell> listOfCandidateCells, int scannedNumber) {
         Cell foundScannedNumberCell = null;
         for (Cell candidatesForTheCell : listOfCandidateCells) {
+            candidatesForTheCell.refreshCandidateList();
             if(candidatesForTheCell.getCandidates().size() == 1
                     && candidatesForTheCell.getCandidates().contains(scannedNumber)) {
                 gameGrid.set(candidatesForTheCell.getRowIndex(), candidatesForTheCell.getColumnIndex(), scannedNumber);
@@ -149,7 +150,6 @@ public class Scanning implements Technique {
         if(foundScannedNumberCell != null) {
             gameGrid.set(foundScannedNumberCell.getRowIndex(), foundScannedNumberCell.getColumnIndex(), scannedNumber);
             done = false;
-            return;
         }
     }
 

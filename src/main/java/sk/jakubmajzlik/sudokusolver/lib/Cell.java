@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Object that represents cell in {@code GameGrid}.
  *
- * @version 1.0
+ * @version 1.1
  * @author Jakub Majzlík
  */
 public class Cell {
@@ -30,6 +30,11 @@ public class Cell {
      * {@code GameGrid} where the cell is.
      */
     private GameGrid gameGrid;
+
+    /**
+     * List of candidates
+     */
+    private List<Integer> listOfCandidates;
 
     /**
      * Constructor for the cell.
@@ -118,12 +123,34 @@ public class Cell {
     }
 
     /**
-     * Gets list of candidates for the cell.
+     * Gets the list of candidates for the cell. If no list of candidates exists, the list will be refreshed.
      * @return List of candidates.
      * @since 1.0
      */
     public List<Integer> getCandidates() {
-        return gameGrid.getCandidatesForCell(this);
+        if(listOfCandidates == null) {
+            refreshCandidateList();
+        }
+        return listOfCandidates;
+    }
+
+    /**
+     * Refreshes the list of candidates for the cell by calling {@code getCandidatesForCell}. The old list will
+     * be replaced with a new one;
+     * @since 1.1
+     */
+    public void refreshCandidateList() {
+        listOfCandidates = gameGrid.getCandidatesForCell(this);
+    }
+
+    /**
+     * Removes candidate from the list of candidates.
+     * @param candidate Candidate to remove.
+     * @since 1.1
+     */
+    public void removeCandidate(Integer candidate) {
+        //Making sure that the list is not null;
+        getCandidates().remove(candidate);
     }
 
     /**
