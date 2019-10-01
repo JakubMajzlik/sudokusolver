@@ -1,9 +1,6 @@
 package sk.jakubmajzlik.sudokusolver.lib;
 
-import sk.jakubmajzlik.sudokusolver.lib.technique.Scanning;
-import sk.jakubmajzlik.sudokusolver.lib.technique.SingleCandidate;
-import sk.jakubmajzlik.sudokusolver.lib.technique.SolvingTechnique;
-import sk.jakubmajzlik.sudokusolver.lib.technique.Technique;
+import sk.jakubmajzlik.sudokusolver.lib.technique.*;
 
 /**
  * This class contains methods, which try to solve the game grid.
@@ -20,11 +17,13 @@ public class SudokuSolver {
     public void solve(GameGrid gameGrid) {
         SingleCandidate singleCandidate = new SingleCandidate();
         Scanning scanning = new Scanning();
+        Elimination elimination = new Elimination();
         //TODO: Make choosing of algorithm smarter
         do {
             gameGrid.didProgress = false;
             singleCandidate.apply(gameGrid);
             scanning.apply(gameGrid);
+            elimination.apply(gameGrid);
         } while (gameGrid.didProgress);
     }
 
@@ -39,6 +38,7 @@ public class SudokuSolver {
         switch (solvingTechnique) {
             case SINGLE_CANDIDATE: technique = new SingleCandidate(); break;
             case SCANNING: technique = new Scanning(); break;
+            case ELIMINATION: technique = new Elimination(); break;
             default: return;
         }
 
