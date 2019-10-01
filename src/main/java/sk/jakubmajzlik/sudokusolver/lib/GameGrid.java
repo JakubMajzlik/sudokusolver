@@ -127,6 +127,9 @@ public class GameGrid {
     public void set(int row, int col, int number) {
         didProgress = true;
         ground.get(row).get(col).setValue(number);
+        removeCandidateForTheListOfCells(getColumn(col), number);
+        removeCandidateForTheListOfCells(getRow(row), number);
+        removeCandidateForTheListOfCells(getRectangle(getRectangleIndex(row, col)), number);
     }
 
     /**
@@ -312,6 +315,20 @@ public class GameGrid {
             }
         }
         return true;
+    }
+
+    /**
+     * Removes candidate from candidate list from the cell which is in the list of cells.
+     * @param listOfCells List of the cells.
+     * @param candidateToRemove Candidate to remove.
+     * @since 1.3
+     */
+    public void removeCandidateForTheListOfCells(List<Cell> listOfCells, int candidateToRemove) {
+        for (Cell cell : listOfCells) {
+            if(cell.getCandidates().contains(candidateToRemove)) {
+                cell.removeCandidate(candidateToRemove);
+            }
+        }
     }
 
     @Override
