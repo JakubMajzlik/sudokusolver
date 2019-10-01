@@ -5,3 +5,5 @@ Implementation of some methods, which are used to solve sudoku.
 Implemented methods:
 - SingleCandidate
 - Scanning
+- Elimination
+- More WIP
