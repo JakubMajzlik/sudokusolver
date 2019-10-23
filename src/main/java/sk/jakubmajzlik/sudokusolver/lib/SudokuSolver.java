@@ -18,12 +18,14 @@ public class SudokuSolver {
         SingleCandidate singleCandidate = new SingleCandidate();
         Scanning scanning = new Scanning();
         Elimination elimination = new Elimination();
+        SubGroup subGroup = new SubGroup();
         //TODO: Make choosing of algorithm smarter
         do {
             gameGrid.didProgress = false;
             singleCandidate.apply(gameGrid);
             scanning.apply(gameGrid);
             elimination.apply(gameGrid);
+            subGroup.apply(gameGrid);
         } while (gameGrid.didProgress);
     }
 
@@ -39,6 +41,7 @@ public class SudokuSolver {
             case SINGLE_CANDIDATE: technique = new SingleCandidate(); break;
             case SCANNING: technique = new Scanning(); break;
             case ELIMINATION: technique = new Elimination(); break;
+            case SUBGROUP: technique = new SubGroup(); break;
             default: return;
         }
 
