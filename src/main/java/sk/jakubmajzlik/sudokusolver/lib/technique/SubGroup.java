@@ -4,7 +4,9 @@ import sk.jakubmajzlik.sudokusolver.lib.Cell;
 import sk.jakubmajzlik.sudokusolver.lib.GameGrid;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Implementation of Subgroup technique of solving sudoku.
@@ -13,7 +15,6 @@ import java.util.List;
  * @author Jakub Majzlík
  * @version 1.0
  * @see Technique
- * TODO: Find trio, quartet, quintet
  */
 public class SubGroup implements Technique {
 
@@ -27,72 +28,125 @@ public class SubGroup implements Technique {
     public void apply(GameGrid gameGrid) {
         if(gameGrid.getSize() != 9) return;
         this.gameGrid = gameGrid;
-        boolean done = false;
-        while (!done) {
-            done = true;
-            for(int i = 0; i < gameGrid.getSize(); i++) {
-                findPairs(gameGrid.getColumn(i));
-                findPairs(gameGrid.getRow(i));
-                findPairs(gameGrid.getRectangle(i));
-            }
 
+        for(int i = 0; i < gameGrid.getSize(); i++) {
+            for(int sizeOfGroup = 2; sizeOfGroup <= 5; sizeOfGroup++) {
+                findGroup(sizeOfGroup, gameGrid.getColumn(i));
+                findGroup(sizeOfGroup, gameGrid.getRow(i));
+                findGroup(sizeOfGroup, gameGrid.getRectangle(i));
+            }
         }
     }
 
     /**
-     * Finds pairs in listOfCells.
-     * @param listOfCells List of cells
+     * Finds group of the size {@code sizeOfGroup} and eliminate candidates of the other cells.
+     * @param sizeOfGroup Size of the group
+     * @param listOfCells List of cells where the method will find group
+     * @since 1.0
      */
-    private void findPairs(List<Cell> listOfCells) {
-
+    private void findGroup(int sizeOfGroup, List<Cell> listOfCells) {
+        //Finding group
         for(Cell cell : listOfCells) {
-            if(cell.getValue() != 0 || cell.getCandidates().size() != 2)  continue;
+            if(cell.getValue() != 0 )  continue;
+            if(cell.getCandidates().size() <= 1 || cell.getCandidates().size() > sizeOfGroup) continue;
 
-            List<Cell> pair = new ArrayList<>();
+            List<Cell> group = new ArrayList<>();
+            Set<Integer> groupCandidates = new HashSet<>(cell.getCandidates());
 
-            pair.add(cell);
+            group.add(cell);
 
-            for(Cell pairCell : listOfCells) {
-                if (pairCell.getValue() != 0 || pairCell == cell || pairCell.getCandidates().size() != 2) continue;
+            for(Cell otherCell : listOfCells) {
+                if (otherCell.getValue() != 0 || group.contains(otherCell)) continue;
+                if(otherCell.getCandidates().size() <= 1 || otherCell.getCandidates().size() > sizeOfGroup) continue;
 
-                if(pairCell.getCandidates().containsAll(cell.getCandidates())) {
-                    if(pair.size() == 1) {
-                        pair.add(pairCell);
-                    } else {
-                        pair.remove(1);
-                        break;
-                    }
+                if(!groupCandidates.containsAll(otherCell.getCandidates())
+                    && !otherCell.getCandidates().containsAll(groupCandidates)) continue;
+
+                if(group.size() < sizeOfGroup) {
+                    groupCandidates.addAll(otherCell.getCandidates());
+                    group.add(otherCell);
+                } else {
+                    group.clear();
+                    break;
                 }
             }
 
-
-            if(pair.size() == 2) {
-                if(pair.get(0).getRectangle() == pair.get(1).getRectangle()) {
-                    for(Cell cellWithCandidatesToRemove : gameGrid.getRectangle(pair.get(0).getRectangle())) {
-                        if(cellWithCandidatesToRemove.getValue() != 0 || pair.contains(cellWithCandidatesToRemove)) continue;
-
-                        cellWithCandidatesToRemove.removeCandidate(cell.getCandidates().get(0));
-                        cellWithCandidatesToRemove.removeCandidate(cell.getCandidates().get(1));
+            //Removing candidates
+            if(group.size() == sizeOfGroup) {
+                if(isEveryCellInTheSameRectangle(group)) {
+                    for(Cell cellWithCandidatesToRemove : gameGrid.getRectangle(group.get(0).getRectangle())) {
+                        removeCandidates(group, groupCandidates, cellWithCandidatesToRemove);
                     }
                 }
 
-                if(pair.get(0).getRowIndex() == pair.get(1).getRowIndex()) {
-                    for(Cell cellWithCandidatesToRemove : gameGrid.getRow(pair.get(0).getRowIndex())) {
-                        if(cellWithCandidatesToRemove.getValue() != 0 || pair.contains(cellWithCandidatesToRemove)) continue;
-
-                        cellWithCandidatesToRemove.removeCandidate(cell.getCandidates().get(0));
-                        cellWithCandidatesToRemove.removeCandidate(cell.getCandidates().get(1));
+                if(isEveryCellInTheSameRow(group)) {
+                    for(Cell cellWithCandidatesToRemove : gameGrid.getRow(group.get(0).getRowIndex())) {
+                        removeCandidates(group, groupCandidates, cellWithCandidatesToRemove);
                     }
-                } else if(pair.get(0).getColumnIndex() == pair.get(1).getColumnIndex()) {
-                    for(Cell cellWithCandidatesToRemove : gameGrid.getColumn(pair.get(0).getColumnIndex())) {
-                        if(cellWithCandidatesToRemove.getValue() != 0 || pair.contains(cellWithCandidatesToRemove)) continue;
-
-                        cellWithCandidatesToRemove.removeCandidate(cell.getCandidates().get(0));
-                        cellWithCandidatesToRemove.removeCandidate(cell.getCandidates().get(1));
+                } else if(isEveryCellInTheSameColumn(group)) {
+                    for(Cell cellWithCandidatesToRemove : gameGrid.getColumn(group.get(0).getColumnIndex())) {
+                        removeCandidates(group, groupCandidates, cellWithCandidatesToRemove);
                     }
                 }
             }
-
         }
+    }
+
+    /**
+     * Removes candidates from {@code cellWithCandidatesToRemove}. If the cell
+     * is in the {@code group}, nothing will be removed.
+     * @param group Group of cells
+     * @param groupCandidates Candidates to remove from {@code cellWithCandidatesToRemove}
+     * @param cellWithCandidatesToRemove Cell where the candidates will be removed
+     * @since 1.0
+     */
+    private void removeCandidates(List<Cell> group, Set<Integer> groupCandidates, Cell cellWithCandidatesToRemove) {
+        if (cellWithCandidatesToRemove.getValue() != 0 || group.contains(cellWithCandidatesToRemove)) return;
+
+        for (Integer candidateToRemove : groupCandidates) {
+            cellWithCandidatesToRemove.removeCandidate(candidateToRemove);
+        }
+    }
+
+    /**
+     * Checks if are all cells in {@code listOfCells} in the same row.
+     * @param listOfCells List of cells
+     * @return True if the cells are in the same row.
+     * @since 1.0
+     */
+    private boolean isEveryCellInTheSameRow(List<Cell> listOfCells) {
+        int cellRow = listOfCells.get(0).getRowIndex();
+        for (Cell cell : listOfCells) {
+            if(cell.getRowIndex() != cellRow) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks if are all cells in {@code listOfCells} in the same column.
+     * @param listOfCells List of cells
+     * @return True if the cells are in the same column.
+     * @since 1.0
+     */
+    private boolean isEveryCellInTheSameColumn(List<Cell> listOfCells) {
+        int cellColumn = listOfCells.get(0).getColumnIndex();
+        for (Cell cell : listOfCells) {
+            if(cell.getColumnIndex() != cellColumn) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks if are all cells in {@code listOfCells} in the same rectangle.
+     * @param listOfCells List of cells
+     * @return True if the cells are in the same rectangle.
+     * @since 1.0
+     */
+    private boolean isEveryCellInTheSameRectangle(List<Cell> listOfCells) {
+        int cellRectangle = listOfCells.get(0).getRectangle();
+        for (Cell cell : listOfCells) {
+            if(cell.getRectangle() != cellRectangle) return false;
+        }
+        return true;
     }
 }
