@@ -150,7 +150,10 @@ public class Cell {
      */
     public void removeCandidate(Integer candidate) {
         //Making sure that the list is not null;
-        getCandidates().remove(candidate);
+        if(getCandidates().contains(candidate)) {
+            getCandidates().remove(candidate);
+            gameGrid.didProgress = true;
+        }
     }
 
     /**
@@ -194,5 +197,16 @@ public class Cell {
     @Override
     public int hashCode() {
         return Objects.hash(rowIndex, columnIndex, value, gameGrid);
+    }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "rowIndex=" + rowIndex +
+                ", columnIndex=" + columnIndex +
+                ", value=" + value +
+                ", gameGrid=" + gameGrid +
+                ", listOfCandidates=" + listOfCandidates +
+                '}';
     }
 }
