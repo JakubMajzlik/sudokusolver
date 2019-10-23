@@ -1,5 +1,6 @@
 package sk.jakubmajzlik.sudokusolver.lib.technique;
 
+import sk.jakubmajzlik.sudokusolver.lib.Cell;
 import sk.jakubmajzlik.sudokusolver.lib.GameGrid;
 
 /**
@@ -8,7 +9,7 @@ import sk.jakubmajzlik.sudokusolver.lib.GameGrid;
  * So far the only grid of size 9x9 is supported.
  *
  * @author Jakub Majzlík
- * @version 1.0
+ * @version 2.0
  * @see Technique
  */
 public class SingleCandidate implements Technique {
@@ -24,23 +25,10 @@ public class SingleCandidate implements Technique {
             done = true;
             for(int rowIndex = 0; rowIndex < gameGrid.getSize(); rowIndex++) {
                 for(int columnIndex = 0; columnIndex < gameGrid.getSize(); columnIndex++) {
-                    //If cell already contains a number, algorithm continue with next cell
-                    if(gameGrid.get(rowIndex, columnIndex).getValue() > 0) continue;
-                    int numberThatCanBePlaced = 0;
-                    for(int possibleNumber = 1; possibleNumber <= gameGrid.getSize(); possibleNumber++) {
-                        if(gameGrid.isNumberInRow(rowIndex, possibleNumber)) continue;
-                        if(gameGrid.isNumberInColumn(columnIndex, possibleNumber)) continue;
-                        if(gameGrid.isNumberInRectangle(gameGrid.getRectangleIndex(rowIndex, columnIndex), possibleNumber)) continue;
-
-                        if(numberThatCanBePlaced > 0) {
-                            numberThatCanBePlaced = 0;
-                            break;
-                        }
-                        numberThatCanBePlaced = possibleNumber;
-                    }
-                    if(numberThatCanBePlaced > 0) {
+                    Cell cell = gameGrid.get(rowIndex, columnIndex);
+                    if(cell.getValue() == 0 && cell.getCandidates().size() == 1) {
+                        gameGrid.set(rowIndex, columnIndex, cell.getCandidates().get(0));
                         done = false;
-                        gameGrid.set(rowIndex, columnIndex, numberThatCanBePlaced);
                     }
                 }
             }
