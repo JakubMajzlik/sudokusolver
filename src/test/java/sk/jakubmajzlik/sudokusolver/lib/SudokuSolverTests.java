@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class SudokuSolverTests {
-
     @Test
     void sudokuSolver_TestGrid1() {
         SudokuSolver sudokuSolver = new SudokuSolver();
@@ -18,6 +17,28 @@ class SudokuSolverTests {
                 {0,0,0,0,6,0,4,0,9},
                 {9,6,7,4,0,0,5,0,0},
                 {0,2,1,0,8,0,0,0,0},
+        };
+        GameGrid gameGrid = new GameGrid(grid);
+        sudokuSolver.solve(gameGrid);
+
+        Assertions.assertTrue(gameGrid.check());
+        Assertions.assertTrue(gameGrid.isSolved());
+
+    }
+
+    @Test
+    void sudokuSolver_TestGrid2() {
+        SudokuSolver sudokuSolver = new SudokuSolver();
+        int[][] grid = {
+                {0,0,0,0,0,4,3,6,5},
+                {0,9,6,0,7,0,8,0,0},
+                {0,0,0,0,0,6,2,7,9},
+                {1,0,0,6,0,0,0,0,3},
+                {0,0,0,5,1,2,0,0,0},
+                {6,0,0,0,0,3,0,0,8},
+                {0,5,8,0,0,0,0,0,0},
+                {0,0,2,0,6,0,5,3,0},
+                {9,6,0,4,0,0,0,8,0},
         };
         GameGrid gameGrid = new GameGrid(grid);
         sudokuSolver.solve(gameGrid);
