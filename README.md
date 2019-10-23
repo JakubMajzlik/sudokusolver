@@ -6,7 +6,5 @@ Implemented methods:
 - SingleCandidate
 - Scanning
 - Elimination
-- Sub-group:
-    - Pairs
-    - More WIP
+- Sub-groups
 - More WIP
