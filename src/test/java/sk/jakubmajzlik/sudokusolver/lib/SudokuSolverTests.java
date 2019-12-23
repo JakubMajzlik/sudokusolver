@@ -48,4 +48,49 @@ class SudokuSolverTests {
 
     }
 
+    @Test
+    void sudokuSolver_TestGrid3() {
+        SudokuSolver sudokuSolver = new SudokuSolver();
+        int[][] grid = {
+                {0,0,9,1,4,0,2,0,0},
+                {0,4,8,0,0,2,0,1,0},
+                {0,0,1,8,3,9,0,0,5},
+                {9,0,6,0,0,0,8,0,0},
+                {4,0,5,0,0,0,0,0,6},
+                {0,0,7,0,0,0,5,0,1},
+                {6,0,3,9,5,4,1,0,0},
+                {0,0,4,3,2,0,7,5,0},
+                {0,0,2,0,0,1,0,0,0}
+        };
+        GameGrid gameGrid = new GameGrid(grid);
+        sudokuSolver.solve(gameGrid);
+
+        Assertions.assertTrue(gameGrid.check());
+        Assertions.assertTrue(gameGrid.isSolved());
+
+    }
+
+//    TODO: Gordonian rectangles implementation needed, for this test grid
+//    @Test
+//    void sudokuSolver_TestGrid4() {
+//        SudokuSolver sudokuSolver = new SudokuSolver();
+//        int[][] grid = {
+//                {6,0,0,0,0,3,2,8,0},
+//                {9,0,0,0,0,7,0,0,0},
+//                {0,1,0,0,4,0,0,6,7},
+//                {0,0,0,5,2,9,0,0,8},
+//                {0,8,0,0,0,0,0,2,0},
+//                {2,0,0,4,3,8,0,0,0},
+//                {8,2,0,0,6,0,0,7,0},
+//                {0,0,0,8,0,0,0,0,1},
+//                {0,6,3,9,0,0,0,0,2},
+//        };
+//        GameGrid gameGrid = new GameGrid(grid);
+//        sudokuSolver.solve(gameGrid);
+//
+//        Assertions.assertTrue(gameGrid.check());
+//        Assertions.assertTrue(gameGrid.isSolved());
+//
+//    }
+
 }
