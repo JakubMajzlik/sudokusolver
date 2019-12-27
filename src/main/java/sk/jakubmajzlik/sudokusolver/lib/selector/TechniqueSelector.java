@@ -6,6 +6,7 @@ import sk.jakubmajzlik.sudokusolver.lib.technique.Technique;
  * Interface for algorithm selection
  * @version 1.0
  * @author Jakub Majzlík
+ * @see RandomSelector
  */
 public interface TechniqueSelector {
     /**
