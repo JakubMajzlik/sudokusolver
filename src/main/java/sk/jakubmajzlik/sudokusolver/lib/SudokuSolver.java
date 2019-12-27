@@ -1,10 +1,11 @@
 package sk.jakubmajzlik.sudokusolver.lib;
 
+import sk.jakubmajzlik.sudokusolver.lib.selector.TechniqueSelector;
 import sk.jakubmajzlik.sudokusolver.lib.technique.*;
 
 /**
  * This class contains methods, which try to solve the game grid.
- * @version 1.0
+ * @version 1.1
  * @author Jakub Majzlík
  */
 public class SudokuSolver {
@@ -19,7 +20,7 @@ public class SudokuSolver {
         Scanning scanning = new Scanning();
         Elimination elimination = new Elimination();
         SubGroup subGroup = new SubGroup();
-        //TODO: Make choosing of algorithm smarter
+
         do {
             gameGrid.didProgress = false;
             singleCandidate.apply(gameGrid);
@@ -27,6 +28,25 @@ public class SudokuSolver {
             elimination.apply(gameGrid);
             subGroup.apply(gameGrid);
         } while (gameGrid.didProgress);
+    }
+
+    /**
+     * Solves {@code gameGrid}. {@code TechniqueSelector} choose algorithm to use for solving.
+     * @param gameGrid Game grid to solve.
+     * @param techniqueSelector Algorithm selector
+     * @since 1.1
+     */
+    public void solve(GameGrid gameGrid, TechniqueSelector techniqueSelector) {
+        int attempts = 0;
+        do {
+            attempts++;
+            gameGrid.didProgress = false;
+            techniqueSelector.getTechnique().apply(gameGrid);
+            if(gameGrid.didProgress) {
+                attempts = 0;
+            }
+            //TODO: attempt number
+        } while (attempts < 50);
     }
 
     /**
