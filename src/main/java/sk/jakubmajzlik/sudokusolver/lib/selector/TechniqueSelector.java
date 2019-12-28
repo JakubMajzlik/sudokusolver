@@ -7,6 +7,7 @@ import sk.jakubmajzlik.sudokusolver.lib.technique.Technique;
  * @version 1.0
  * @author Jakub Majzlík
  * @see RandomSelector
+ * @see LinearSelector
  */
 public interface TechniqueSelector {
     /**
