@@ -48,6 +48,60 @@ class GameGridTests {
     }
 
     @Test
+    void GameGrid_StringConstructor() {
+
+        GameGrid gameGrid = new GameGrid(
+                " 2 0 0 3 6 4 0 0 0" +
+                " 0 7 0 0 5 0 0 0 6" +
+                " 5 4 0 0 0 0 0 0 3" +
+                " 0 0 7 8 0 0 3 0 0\n" +
+                " 0 5 9 0 0 0 7 1 0" +
+                " 0 0 1 0 0 5 9 0 0" +
+                " 7 0 0 0 0 0 0 2 8" +
+                " 6 0 0 0 7 0 0 5 0" +
+                " 0 0 0 6 2 1 0 0 7");
+        String expectedResult =
+                "2 0 0 3 6 4 0 0 0 \n" +
+                "0 7 0 0 5 0 0 0 6 \n" +
+                "5 4 0 0 0 0 0 0 3 \n" +
+                "0 0 7 8 0 0 3 0 0 \n" +
+                "0 5 9 0 0 0 7 1 0 \n" +
+                "0 0 1 0 0 5 9 0 0 \n" +
+                "7 0 0 0 0 0 0 2 8 \n" +
+                "6 0 0 0 7 0 0 5 0 \n" +
+                "0 0 0 6 2 1 0 0 7 \n";
+        Assertions.assertEquals(expectedResult, gameGrid.toString());
+        Assertions.assertEquals(9, gameGrid.getSize());
+    }
+
+    @Test
+    void GameGrid_StringConstructor_exceptionsThrown() {
+        String gameGridWithMissingCell =
+                " 2 0 0 3 6 4 0 0 0" +
+                " 0 7 0 0 5 0 0 0 6" +
+                " 5 4 0 0 0 0 0 0 3" +
+                " 0 0 7 8 0 0 3 0 0\n" +
+                " 0 5 9 0 0 0 7 1 0" +
+                " 0 0 1 0 0 5 9 0 0" +
+                " 7 0 0 0 0 0 0 2 8" +
+                " 6 0 0 0 7 0 0 5 0" +
+                " 0 0 0 6 2 1 0 0 ";
+        String gameGridWithNonNumericCell =
+                " 2 0 0 3 6 4 0 0 0" +
+                " 0 7 0 0 5 0 0 0 6" +
+                " 5 4 0 0 0 0 0 0 3" +
+                " 0 0 7 8 0 0 3 0 0\n" +
+                " 0 5 9 0 0 0 7 1 0" +
+                " 0 0 1 0 0 5 9 0 0" +
+                " 7 0 0 0 0 0 0 2 8" +
+                " 6 0 0 0 7 0 0 5 0" +
+                " 0 0 0 6 2 1 0 0 g";
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new GameGrid(gameGridWithMissingCell));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new GameGrid(gameGridWithNonNumericCell));
+    }
+
+    @Test
     void GameGrid_2DArrayConstructor_exceptionsThrown() {
         int[][] testGameGridWithMissingCell = {
                 {2,0,0,3,6,4,0,0,0},
@@ -60,7 +114,7 @@ class GameGridTests {
                 {6,0,0,0,7,0,0,5,0},
                 {0,0,0,6,2,1,0,0,7}
         };
-        Assertions.assertThrows(NullPointerException.class, () -> new GameGrid(null));
+
         Assertions.assertThrows(IllegalArgumentException.class, () -> new GameGrid(testGameGridWithMissingCell));
     }
 

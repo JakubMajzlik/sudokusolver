@@ -9,7 +9,7 @@ import java.util.Objects;
  * This class provides basic structure for all sudoku solving algorithms of this library.
  * Game grid is implemented as {@code List<List<Integer>>}. Empty cells must be filled with zeros.
  *
- * @version 1.3
+ * @version 1.4
  * @author Jakub Majzlík
  */
 public class GameGrid {
@@ -60,7 +60,7 @@ public class GameGrid {
      * @since 1.0
      */
     public GameGrid(int[][] gameGrid) {
-        if(gameGrid == null) throw new NullPointerException();
+        //if(gameGrid == null) throw new NullPointerException();
         if(gameGrid.length != 9) throw  new IllegalArgumentException("Array must be 9x9");
         int fieldSum = 0;
         for (int[] ints : gameGrid) fieldSum += ints.length;
@@ -73,6 +73,29 @@ public class GameGrid {
                 ground.get(row).add(new Cell(row, column, gameGrid[row][column], this));
             }
         }
+    }
+
+    /**
+     * Creates the game grid of the size 9x9 with numbers which are stored String {@code gameGrid}.
+     * All spaces are removed from the String.
+     * @param gameGrid String of numbers.
+     * @throws IllegalArgumentException if {@code gameGrid}'s length is not equal 81
+     * @since 1.4
+     */
+    public GameGrid(String gameGrid) {
+        gameGrid = gameGrid.replace(" ", "");
+        gameGrid = gameGrid.replace("\n", "");
+        if(gameGrid.length() != 81) throw new IllegalArgumentException("The grid must consist of 81 numbers");
+        for(int row = 0; row < 9; row++) {
+            ground.add(new ArrayList<>());
+            for(int col = 0; col < 9; col++) {
+                char cellChar = gameGrid.charAt(row * 9 + col);
+                if(!Character.isDigit(cellChar)) throw new IllegalArgumentException("Only numerical grid is allowed");
+                int cellValue = Integer.parseInt("" + cellChar);
+                ground.get(row).add(new Cell(row, col, cellValue, this));
+            }
+        }
+        size = 9;
     }
 
     /**
@@ -187,7 +210,7 @@ public class GameGrid {
      * @since 1.0
      */
     public int getSize() {
-        return size;
+        return ground.size();
     }
 
     /**
